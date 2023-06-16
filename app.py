@@ -10,7 +10,7 @@ os.environ["OPENAI_API_KEY"] = "sk-80ZdTybXNr5B6BPpqBOwT3BlbkFJG9pWRoMqxUnbJ1Kls
 
 app = Flask(__name__)
 
-# define LLM
+# define LLMs
 llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.3, model_name="gpt-3.5-turbo"))
 service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
 
