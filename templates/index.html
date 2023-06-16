@@ -1,13 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Query App</title>
+    <title>AGP-T</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .banner {
+            background-color: black;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .query-form {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .query-input {
+            width: 500px;
+            height: 100px;
+            font-size: 18px;
+        }
+
+        .submit-button {
+            margin-left: 10px;
+            padding: 12px 24px;
+            font-size: 20px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Query App</h1>
-    <form action="/submit" method="POST">
-        <input type="text" name="query" placeholder="Enter your query" required>
-        <button type="submit">Submit</button>
+    <div class="banner">
+        <h1 class="title">AGP-T</h1>
+    </div>
+    <form class="query-form" action="/submit" method="POST">
+        <textarea class="query-input" name="query" placeholder="Enter your query" required></textarea>
+        <button class="submit-button" type="submit">Submit</button>
     </form>
     <div id="output">
         {% if output %}
