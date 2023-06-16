@@ -5,7 +5,7 @@ from llama_index import KeywordTableIndex,SimpleDirectoryReader,LLMPredictor,Ser
 from llama_index import load_index_from_storage, StorageContext
 from langchain.chat_models import ChatOpenAI
 
-os.environ["OPENAI_API_KEY"] = "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"
+#os.environ["OPENAI_API_KEY"] = "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"
 #sys.path.append('../../AGPT')
 
 app = Flask(__name__)
