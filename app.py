@@ -5,17 +5,17 @@ from llama_index import KeywordTableIndex,SimpleDirectoryReader,LLMPredictor,Ser
 from llama_index import load_index_from_storage, StorageContext
 from langchain.chat_models import ChatOpenAI
 
-#os.environ["OPENAI_API_KEY"] = "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"
 #sys.path.append('../../AGPT')
 
 app = Flask(__name__)
 
 # define LLMs
-llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.3, model_name="gpt-3.5-turbo"))
-service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
 
 @app.route('/')
 def home():
+    llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.2, model_name="gpt-3.5-turbo"))
+    global service_context
+    service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
     return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
