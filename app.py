@@ -10,12 +10,11 @@ from langchain.chat_models import ChatOpenAI
 app = Flask(__name__)
 
 # define LLMs
+llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.2, model_name="gpt-3.5-turbo"))
+service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
 
 @app.route('/')
 def home():
-    llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.2, model_name="gpt-3.5-turbo"))
-    global service_context
-    service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
     return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
