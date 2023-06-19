@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AGP-T</title>
+    <title>AGP-T | Marketing Agency Growth Partner</title>
     <style>
         body {
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
             background-color: #f4f4f4;
         }
 
         .banner {
-            background-color: black;
+            background-color: #262626;
             padding: 20px;
             color: white;
             text-align: center;
@@ -23,7 +24,7 @@
         }
 
         .query-form {
-            margin-top: 20px;
+            margin-top: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -31,15 +32,17 @@
 
         .query-input {
             width: 500px;
-            height: 100px;
-            font-size: 18px;
+            height: 150px;
+            font-size: 16px;
+            resize: none;
+            padding: 10px;
         }
 
         .submit-button {
             margin-left: 10px;
             padding: 12px 24px;
             font-size: 20px;
-            background-color: black;
+            background-color: #262626;
             color: white;
             border: none;
             border-radius: 4px;
@@ -48,12 +51,32 @@
 
         #output {
             margin-top: 30px;
+            text-align: center;
+            width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
     <div class="banner">
         <h1 class="title">AGP-T</h1>
+        <p>Sales Call Knowledge Base</p>
     </div>
     <form class="query-form" action="/submit" method="POST">
         <textarea class="query-input" name="query" placeholder="Enter your query" required></textarea>
