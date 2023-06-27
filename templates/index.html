@@ -71,12 +71,22 @@
             font-size: 18px;
             line-height: 1.5;
         }
+
+        .navigation-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: white;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <div class="banner">
         <h1 class="title">AGP-T</h1>
         <p>Sales Call Knowledge Base</p>
+        <a href="/singlefile" class="navigation-link">Consult single file</a>
     </div>
     <form class="query-form" action="/submit" method="POST">
         <textarea class="query-input" name="query" placeholder="Enter your query" required></textarea>

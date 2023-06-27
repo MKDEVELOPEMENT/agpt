@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AGP-T | Marketing Agency Growth Partner</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .banner {
+            background-color: #262626;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .navigation-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 30px;
+            padding: 20px;
+        }
+
+        .upload-section {
+            flex: 1;
+            max-width: 30%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .file-input {
+            margin-bottom: 10px;
+        }
+
+        .additional-notes {
+            width: 100%;
+            height: 150px;
+            font-size: 16px;
+            resize: none;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .submit-button {
+            padding: 12px 24px;
+            font-size: 20px;
+            background-color: #262626;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .query-section {
+            flex: 2;
+            margin-left: 20px;
+        }
+
+        .query-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .query-input {
+            width: 500px;
+            height: 150px;
+            font-size: 16px;
+            resize: none;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #output {
+            margin-top: 30px;
+            text-align: center;
+            width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <h1 class="title">AGP-T</h1>
+        <p>Sales Call Knowledge Base</p>
+        <a href="/" class="navigation-link">Go back to Index</a>
+    </div>
+    <div class="content">
+        <div class="upload-section">
+            <form class="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
+                <input class="file-input" type="file" name="audio_file" accept="audio/*" required>
+                <textarea class="additional-notes" name="notes" placeholder="Enter additional notes/details regarding the interview"></textarea>
+                <div style="display: flex; justify-content: center;">
+                    <button class="submit-button" type="submit">Upload</button>
+                </div>
+            </form>
+        </div>
+        <div class="query-section">
+            <form class="query-form" action="/submit" method="POST">
+                <textarea class="query-input" name="query" placeholder="Enter your query" required></textarea>
+                <button class="submit-button" type="submit">Submit</button>
+            </form>
+            <div id="output">
+                {% if output %}
+                    <h3>Output:</h3>
+                    <p>{{ output }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
