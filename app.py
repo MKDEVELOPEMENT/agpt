@@ -13,7 +13,7 @@ DEEPGRAM_API_KEY = '682f172faae69d43baece80781177391e74dcc6b'
 app = Flask(__name__)
 
 # define LLMs
-os.environ["OPENAI_API_KEY"] = "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"
+#os.environ["OPENAI_API_KEY"] = ""
 llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.1, model_name="gpt-3.5-turbo"))
 service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
 query_engine = 0
