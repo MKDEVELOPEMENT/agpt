@@ -5,8 +5,10 @@ from llama_index import KeywordTableIndex,SimpleDirectoryReader,LLMPredictor,Ser
 from llama_index import load_index_from_storage, StorageContext
 from langchain.chat_models import ChatOpenAI
 from deepgram import Deepgram
-from pydub import AudioSegment
+# from pydub import AudioSegment
+# from moviepy.editor import VideoFileClip
 import json
+import io
 
 DEEPGRAM_API_KEY = '682f172faae69d43baece80781177391e74dcc6b'
 
@@ -53,13 +55,15 @@ def upload():
     # Check the file extension
     file_ext = os.path.splitext(file.filename)[1].lower()
 
-    if file_ext == '.mp4' or file_ext == '.mov':
-        # Extract audio from MP4 or MOV file
-        file = extract_audio(file)
-        # Save the extracted audio file
-        #audio.save('output.mp3')
-        # Do further processing with the extracted audio file
-        # ...
+    # if file_ext == '.mp4' or file_ext == '.mov':
+    #     print("this is running lol")
+    #     # Extract audio from MP4 or MOV file
+    #     video = VideoFileClip(file)
+    #     file = video.audio#file = extract_audio(file)
+    #     # Save the extracted audio file
+    #     #audio.save('output.mp3')
+    #     # Do further processing with the extracted audio file
+    #     # ...
 
     export_transcription(file, "audio/mp4", adnotes)
 
@@ -92,6 +96,7 @@ def request_transcription(audio, mimetype_):
     print('Requesting transcript...')
 
     response = dg_client.transcription.sync_prerecorded(source, options)
+    print("got transcript")
     return json.dumps(response, indent=4), response
 
 def export_transcription(audio, mimetype_, ad_notes):
@@ -119,14 +124,31 @@ def export_transcription(audio, mimetype_, ad_notes):
 
     return file
 
-def extract_audio(video_file):
-    # Load the video file
-    audio = AudioSegment.from_file(video_file)
-
-    # Extract the audio
-    audio = audio.set_channels(2)  # Convert stereo to mono if needed
-
-    return audio
+# def extract_audio(video_file):
+#     # # Load the video file
+#     # audio = AudioSegment.from_file(video_file)
+#     #
+#     # # Extract the audio
+#     # audio = audio.set_channels(1)  # Convert stereo to mono if needed
+#
+#     # Create an in-memory file-like object
+#     audio_buffer = io.BytesIO()
+#
+#     # Set the audio codec to mp3
+#     audio_codec = 'mp3'
+#
+#     # Read the video file into a moviepy video clip
+#     video_clip = VideoFileClip(video_file.stream)
+#
+#     # Extract audio from the video clip and write it to the buffer
+#     video_clip.audio.write_audiofile(audio_buffer, codec=audio_codec)
+#
+#     # Set the buffer position to the beginning
+#     audio_buffer.seek(0)
+#
+#     # You can now use the audio buffer as needed, e.g., save it to disk or send it as a response
+#     # For example, if you want to send it as a response, you can return it as follows:
+#     return audio_buffer.getvalue()
 
 if __name__ == '__main__':
     app.run(debug=True)
