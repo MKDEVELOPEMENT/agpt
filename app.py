@@ -55,10 +55,9 @@ def upload():
 
     if file_ext == '.mp4' or file_ext == '.mov':
         # Extract audio from MP4 or MOV file
-        audio_file = extract_audio(file)
+        file = extract_audio(file)
         # Save the extracted audio file
         #audio.save('output.mp3')
-        file = audio_file
         # Do further processing with the extracted audio file
         # ...
 
@@ -122,10 +121,10 @@ def export_transcription(audio, mimetype_, ad_notes):
 
 def extract_audio(video_file):
     # Load the video file
-    video = AudioSegment.from_file(video_file)
+    audio = AudioSegment.from_file(video_file)
 
     # Extract the audio
-    audio = video.set_channels(1)  # Convert stereo to mono if needed
+    audio = audio.set_channels(2)  # Convert stereo to mono if needed
 
     return audio
 
