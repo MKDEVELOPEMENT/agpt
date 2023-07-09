@@ -5,6 +5,7 @@ from llama_index import KeywordTableIndex,SimpleDirectoryReader,LLMPredictor,Ser
 from llama_index import load_index_from_storage, StorageContext
 from langchain.chat_models import ChatOpenAI
 from deepgram import Deepgram
+from pydub import AudioSegment
 import json
 
 DEEPGRAM_API_KEY = '682f172faae69d43baece80781177391e74dcc6b'
@@ -12,7 +13,7 @@ DEEPGRAM_API_KEY = '682f172faae69d43baece80781177391e74dcc6b'
 app = Flask(__name__)
 
 # define LLMs
-#os.environ["OPENAI_API_KEY"] = ""
+os.environ["OPENAI_API_KEY"] = "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"
 llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.1, model_name="gpt-3.5-turbo"))
 service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
 query_engine = 0
@@ -44,8 +45,24 @@ def upload():
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-    audio_file = request.files['audio_file']
-    export_transcription(audio_file, "audio/mp4", adnotes)
+    file = request.files['audio_file']
+    # Check if the file is empty
+    if file.filename == '':
+        return 'No file selected', 400
+
+    # Check the file extension
+    file_ext = os.path.splitext(file.filename)[1].lower()
+
+    if file_ext == '.mp4' or file_ext == '.mov':
+        # Extract audio from MP4 or MOV file
+        audio_file = extract_audio(file)
+        # Save the extracted audio file
+        #audio.save('output.mp3')
+        file = audio_file
+        # Do further processing with the extracted audio file
+        # ...
+
+    export_transcription(file, "audio/mp4", adnotes)
 
     documents = SimpleDirectoryReader(directory).load_data()
     global index
@@ -102,6 +119,15 @@ def export_transcription(audio, mimetype_, ad_notes):
     file.close()
 
     return file
+
+def extract_audio(video_file):
+    # Load the video file
+    video = AudioSegment.from_file(video_file)
+
+    # Extract the audio
+    audio = video.set_channels(1)  # Convert stereo to mono if needed
+
+    return audio
 
 if __name__ == '__main__':
     app.run(debug=True)
