@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-import sys
 import os
 from llama_index import KeywordTableIndex,SimpleDirectoryReader,LLMPredictor,ServiceContext, VectorStoreIndex, ListIndex
 from llama_index import load_index_from_storage, StorageContext
@@ -8,7 +7,7 @@ from deepgram import Deepgram
 # from pydub import AudioSegment
 # from moviepy.editor import VideoFileClip
 import json
-import io
+import shutil
 
 DEEPGRAM_API_KEY = '682f172faae69d43baece80781177391e74dcc6b'
 
@@ -18,7 +17,7 @@ app = Flask(__name__)
 #os.environ["OPENAI_API_KEY"] = ""
 llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.1, model_name="gpt-3.5-turbo"))
 service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
-query_engine = 0
+#query_engine = 0
 index = 0
 
 @app.route('/')
@@ -33,8 +32,13 @@ def otherpage():
 def submit():
     query = request.form.get('query')
     print(f"query: '{query}'")
-    #index_ = load_existing_index(service_context)
-    #query_engine_ = index_.as_query_engine()
+    index_ = load_existing_index(service_context)
+    query_engine = index_.as_query_engine()
+    # query_engine_serialized = session.get('query_engine')
+    # if query_engine_serialized is None:
+    #     return 'Query engine not found', 400
+    #
+    # query_engine = dill.loads(query_engine_serialized)
     response = query_engine.query(query)
     print(response)
 
@@ -42,6 +46,15 @@ def submit():
 
 @app.route('/upload', methods=['POST'])
 def upload():
+    subfolder = "temp_index"
+    if os.path.exists(subfolder):
+        # Delete all contents inside the subfolder
+        for root, dirs, files in os.walk(subfolder):
+            for file in files:
+                os.remove(os.path.join(root, file))
+            for dir in dirs:
+                shutil.rmtree(os.path.join(root, dir))
+
     adnotes = request.form.get("notes")
     directory = "recordings"
     if not os.path.exists(directory):
@@ -55,24 +68,16 @@ def upload():
     # Check the file extension
     file_ext = os.path.splitext(file.filename)[1].lower()
 
-    # if file_ext == '.mp4' or file_ext == '.mov':
-    #     print("this is running lol")
-    #     # Extract audio from MP4 or MOV file
-    #     video = VideoFileClip(file)
-    #     file = video.audio#file = extract_audio(file)
-    #     # Save the extracted audio file
-    #     #audio.save('output.mp3')
-    #     # Do further processing with the extracted audio file
-    #     # ...
-
     export_transcription(file, "audio/mp4", adnotes)
 
     documents = SimpleDirectoryReader(directory).load_data()
     global index
     global query_engine
     index = ListIndex.from_documents(documents)
-    #index = load_existing_index(service_context)
-    query_engine = index.as_query_engine()
+    index.storage_context.persist(persist_dir="temp_index")
+    # query_engine = index.as_query_engine()
+    # session['query_engine'] = dill.dumps(query_engine)
+
     # if file.filename == '':
     #     return "No file selected."
 
