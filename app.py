@@ -22,7 +22,7 @@ index = 0
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('singlefile.html')
 
 @app.route('/singlefile')
 def otherpage():
