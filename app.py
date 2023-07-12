@@ -56,6 +56,8 @@ def upload():
                 os.remove(os.path.join(root, file))
             for dir in dirs:
                 shutil.rmtree(os.path.join(root, dir))
+    else:
+        os.makedirs(subfolder)
 
     selected_option = request.form.get('dropdown_menu')
 
