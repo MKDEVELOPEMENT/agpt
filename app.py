@@ -67,7 +67,14 @@ def upload():
 
     adnotes = request.form.get("notes")
     directory = "recordings"
-    if not os.path.exists(directory):
+    if os.path.exists(directory):
+        # Delete all contents inside the subfolder
+        for root, dirs, files in os.walk(directory):
+            for file in files:
+                os.remove(os.path.join(root, file))
+            for dir in dirs:
+                shutil.rmtree(os.path.join(root, dir))
+    else:
         os.makedirs(directory)
 
     file = request.files['audio_file']
@@ -81,8 +88,6 @@ def upload():
     export_transcription(file, "audio/mp4", adnotes)
 
     documents = SimpleDirectoryReader(directory).load_data()
-    global index
-    global query_engine
     index = ListIndex.from_documents(documents)
     index.storage_context.persist(persist_dir="temp_index")
 
