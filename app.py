@@ -177,6 +177,7 @@ def get_unique_indices():
     bloblist = list_blobs_with_prefix("agpt_bucket1", "indices/")
     index_list = [blob.split('/')[1] for blob in bloblist]
     uniques = list(set(index_list))
+    print(uniques)
     return uniques
 
 def download_blob(source_blob_name, destination_file_name):
@@ -186,11 +187,11 @@ def download_blob(source_blob_name, destination_file_name):
     blob = bucket.blob(source_blob_name)
     blob.download_to_filename(destination_file_name)
 
-    print(
-        "Downloaded storage object {} from bucket {} to local file {}.".format(
-            source_blob_name, bucket_name, destination_file_name
-        )
-    )
+    # print(
+    #     "Downloaded storage object {} from bucket {} to local file {}.".format(
+    #         source_blob_name, bucket_name, destination_file_name
+    #     )
+    # )
 
 def download_index_files_gcs(indx):
     download_blob("indices/"+indx+"/docstore.json", "temp_index/docstore.json")
