@@ -10,6 +10,7 @@ from google.cloud import storage
 
 DEEPGRAM_API_KEY = '682f172faae69d43baece80781177391e74dcc6b'
 os.environ["GCLOUD_PROJECT"] = "agpt-389322"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'agpt-389322-a2f03394a344.json'
 
 app = Flask(__name__)
 

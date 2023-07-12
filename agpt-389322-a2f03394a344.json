@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "agpt-389322",
+  "private_key_id": "a2f03394a3446b9031fd55682d2033e98983a6ca",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDBafkFEZP6/IzS\nNifDUghNbT32/4RbdVQ1oetzaYq3erO/6Z3RwIl95KoEt7O5VTQX+F1awPHml0vO\n0Xtzy8n8M0Gdqa1+5BMntYlZYCR9GGWKXgE3Vdip+07z3r8i7m2gYF/tpRGNRyz9\n02MnuWcV2CI95k1rVofMGaIKv2cqUzcaaXIko4M0KlcNGIbX8f/Sk1DWQeOtkPbo\nbM7ta5wset3q1lsu11pPWMDPXNovrKDbAA77eMefwHQzqeQbd8xvNNEf9wBS7JG6\niMl1hd6fu+1f2IMLPUJ9tjiUM48FGhd8LV/92NHZ1Y2CSFmxQQ0tFucUs3gfD1x5\n0PaGens7AgMBAAECggEABzd6YINfZNC3kGsPi2zW0nduWyD9l0wGxa7c/NlwoO1Q\nd6tdMCO2/Z437yUg7PFjmDa0L7Fd//Sf53+kKOtEW3IDfhaEBWVihutxzIaXK0kV\nwNabxQIhq3YCZCcTiqzKz7PI4IfK4ofyrdCNX+toZUWYltFZDNWVtjqJSU1gVBE7\ng78G6klvXQQN/2H2c0PXN4Vr5d1uFfcm4WmXPiGi3AJJphdr2wzZq0ffUVlTAXev\nQN3Tr9ss1uIZu5vvg/HlaI54xRPR6cjbrn8O5gvFjtUTqgYYxMyt9uX0P7W5/HRC\n6RamuGTgrVWibLKtH9qj2ZST0LTBw8YgEmCTs8vJQQKBgQDrB5WeI/665EsY+eP6\nXGP+CVWNZlfyqOQa4ksI5sDlEY0XbMTEicF4n/nqIyrGw8qWGlE02e4+YVSGYAVQ\nSyTxKgE6DTW2hzu4RknF0x07mMXHkFPpqMvMbf874ApPMNdAaoV6Ia+9KlNelVPj\n0v5ExKw1MjbYvHm9b44kKeMyTwKBgQDSq9OMrSKEE8WFvch1CxaKgdif6uOqT8hE\n7ulP9zhuNXg115IVIT4lgoqs8sI7DPZYlXAexUEuTDZDfi5wppRR8MPIZOjBz5aX\n6ptp1caekSeULWoQkQ2B+GmbPQcDTMRxK3SM54JNryB/pB2WRC7aZC85kTAmcsmz\n7OFQFtoJVQKBgCLdeyp8eHtNBn7sAw/OyN6Uj+Zr+jv7Jet/ClaFtLPGiMGi1wW4\n0cSNJsu+78eQn+roeId4lMkYMyvD7sXcf9xuuMPd1cv//7H0a1k3WizPGvfhxzDw\nY1suLiC5uY3J1wStSKO3f5R2ROvRByLS1/lnm4xAqLY6L20UsWdX92YtAoGAW++Q\nSnvj7C+Uq2C+8hT8qUUw+9jNsa1PgIWiW7tPbQj4hMamgYIYVNY7Hm5yRMLLXq0Y\nWNVMNKAdriaKra6EW53uUq12xd2JopJHcFBSdTBzTT7kYoZqlqWJsK1ZOh9uOtTz\n7+m3+57JV+qO3tyydavyz/SERsMhMtvVF9ZhIGECgYEA6XDP1Ewkv+F5Dij6ETh4\nf17pPiAUf0ydGuMWjOkwIIku687rcpfBH2m0oVklh3u/Egw/BkRtXyCdSg/Ya5qQ\nM7lx+3GzG8mygBpHEko83Od/pZj9C6rWpSwGjtNm3Kx+AwuD7F361kVfqvzI4n5/\n2Pxp6GxFjarmSI0mSxAb/Ps=\n-----END PRIVATE KEY-----\n",
+  "client_email": "heroku-service@agpt-389322.iam.gserviceaccount.com",
+  "client_id": "117847685272954591601",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/heroku-service%40agpt-389322.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
