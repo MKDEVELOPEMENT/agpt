@@ -4,12 +4,12 @@ from llama_index import KeywordTableIndex,SimpleDirectoryReader,LLMPredictor,Ser
 from llama_index import load_index_from_storage, StorageContext
 from langchain.chat_models import ChatOpenAI
 from deepgram import Deepgram
-# from pydub import AudioSegment
-# from moviepy.editor import VideoFileClip
 import json
 import shutil
+from google.cloud import storage
 
 DEEPGRAM_API_KEY = '682f172faae69d43baece80781177391e74dcc6b'
+os.environ["GCLOUD_PROJECT"] = "agpt-389322"
 
 app = Flask(__name__)
 
@@ -22,7 +22,8 @@ index = 0
 
 @app.route('/')
 def home():
-    return render_template('singlefile.html')
+    indices = get_unique_indices()
+    return render_template('singlefile.html', dropdown_options=indices)
 
 @app.route('/singlefile')
 def otherpage():
@@ -55,6 +56,12 @@ def upload():
             for dir in dirs:
                 shutil.rmtree(os.path.join(root, dir))
 
+    selected_option = request.form.get('dropdown_menu')
+
+    if selected_option:
+        download_index_files_gcs(selected_option)
+        return render_template("singlefile.html")
+
     adnotes = request.form.get("notes")
     directory = "recordings"
     if not os.path.exists(directory):
@@ -66,7 +73,7 @@ def upload():
         return 'No file selected', 400
 
     # Check the file extension
-    file_ext = os.path.splitext(file.filename)[1].lower()
+    file_pre = os.path.splitext(file.filename)[0]
 
     export_transcription(file, "audio/mp4", adnotes)
 
@@ -75,13 +82,13 @@ def upload():
     global query_engine
     index = ListIndex.from_documents(documents)
     index.storage_context.persist(persist_dir="temp_index")
-    # query_engine = index.as_query_engine()
-    # session['query_engine'] = dill.dumps(query_engine)
 
-    # if file.filename == '':
-    #     return "No file selected."
+    #save index to google cloud
+    upload_blob("temp_index/docstore.json", "indices/"+file_pre+"/docstore.json")
+    upload_blob("temp_index/graph_store.json", "indices/" + file_pre + "/graph_store.json")
+    upload_blob("temp_index/index_store.json", "indices/" + file_pre + "/index_store.json")
+    upload_blob("temp_index/vector_store.json", "indices/" + file_pre + "/vector_store.json")
 
-    # filename = file.filename
     return render_template('singlefile.html')
 
 def load_existing_index(service_cntx):
@@ -129,31 +136,59 @@ def export_transcription(audio, mimetype_, ad_notes):
 
     return file
 
-# def extract_audio(video_file):
-#     # # Load the video file
-#     # audio = AudioSegment.from_file(video_file)
-#     #
-#     # # Extract the audio
-#     # audio = audio.set_channels(1)  # Convert stereo to mono if needed
-#
-#     # Create an in-memory file-like object
-#     audio_buffer = io.BytesIO()
-#
-#     # Set the audio codec to mp3
-#     audio_codec = 'mp3'
-#
-#     # Read the video file into a moviepy video clip
-#     video_clip = VideoFileClip(video_file.stream)
-#
-#     # Extract audio from the video clip and write it to the buffer
-#     video_clip.audio.write_audiofile(audio_buffer, codec=audio_codec)
-#
-#     # Set the buffer position to the beginning
-#     audio_buffer.seek(0)
-#
-#     # You can now use the audio buffer as needed, e.g., save it to disk or send it as a response
-#     # For example, if you want to send it as a response, you can return it as follows:
-#     return audio_buffer.getvalue()
+def upload_blob(source_file_name, destination_blob_name):
+    bucket_name = "agpt_bucket1"
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+
+    generation_match_precondition = 0
+
+    blob.upload_from_filename(source_file_name, if_generation_match=generation_match_precondition)
+
+    print(
+        f"File {source_file_name} uploaded to {destination_blob_name}."
+    )
+
+def list_blobs_with_prefix(bucket_name, prefix, delimiter=None):
+    storage_client = storage.Client()
+    bloblist = []
+
+    # Note: Client.list_blobs requires at least package version 1.17.0.
+    blobs = storage_client.list_blobs(bucket_name, prefix=prefix, delimiter=delimiter)
+
+    # Note: The call returns a response only when the iterator is consumed.
+    print("Blobs:")
+    for blob in blobs:
+        print(blob.name)
+        bloblist.append(blob.name)
+
+    return bloblist
+
+def get_unique_indices():
+    bloblist = list_blobs_with_prefix("agpt_bucket1", "indices/")
+    index_list = [blob.split('/')[1] for blob in bloblist]
+    uniques = list(set(index_list))
+    return uniques
+
+def download_blob(source_blob_name, destination_file_name):
+    bucket_name = "agpt_bucket1"
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(source_blob_name)
+    blob.download_to_filename(destination_file_name)
+
+    print(
+        "Downloaded storage object {} from bucket {} to local file {}.".format(
+            source_blob_name, bucket_name, destination_file_name
+        )
+    )
+
+def download_index_files_gcs(indx):
+    download_blob("indices/"+indx+"/docstore.json", "temp_index/docstore.json")
+    download_blob("indices/" + indx + "/graph_store.json", "temp_index/graph_store.json")
+    download_blob("indices/" + indx + "/index_store.json", "temp_index/index_store.json")
+    download_blob("indices/" + indx + "/vector_store.json", "temp_index/vector_store.json")
 
 if __name__ == '__main__':
     app.run(debug=True)
